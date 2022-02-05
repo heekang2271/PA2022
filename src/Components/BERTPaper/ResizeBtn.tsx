@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
-import { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import {
   BERTPaperMinWidth,
-  BERTPaperWidthSelector,
   BERTPaperWidthState,
-  chapterState,
   docWidthState,
 } from '../../atoms';
 

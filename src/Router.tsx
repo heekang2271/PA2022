@@ -7,6 +7,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<BERTPaper />} />
+        <Route path="/*" element={<BERTPaper />} />
       </Routes>
     </BrowserRouter>
   );

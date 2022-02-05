@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 import { useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { BERTPaperWidthState, chapterState, docWidthState } from '../../atoms';
+import {
+  BERTPaperMinWidth,
+  BERTPaperWidthSelector,
+  BERTPaperWidthState,
+  chapterState,
+  docWidthState,
+} from '../../atoms';
 
 interface IButton {
   left: number;
@@ -38,33 +44,6 @@ const Button = styled.button.attrs((props: any) => ({
   z-index: 100;
 `;
 
-// const Button = styled.button<IButton>`
-//   width: 45px;
-//   height: 45px;
-//   top: 50%;
-//   left: ${({ left }) => `${left}px`};
-//   background-color: #7d7d7d;
-//   border-radius: 100%;
-//   position: absolute;
-//   border: none;
-//   outline: none;
-//   transform: translateX(-50%) translateY(-50%);
-//   cursor: pointer;
-
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 18px;
-
-//   & > span {
-//     position: relative;
-//     top: 2px;
-//     color: #ffffff;
-//   }
-
-//   z-index: 100;
-// `;
-
 interface IResizeBtn {
   left: number;
   btnId: number;
@@ -73,6 +52,7 @@ interface IResizeBtn {
 function ResizeBtn({ left, btnId }: IResizeBtn) {
   const docWidth = useRecoilValue(docWidthState);
   const [widthRatio, setWidthRatio] = useRecoilState(BERTPaperWidthState);
+  // const BERTPaperWidth = useRecoilValue(BERTPaperWidthSelector);
 
   const [mouseDown, setMouseDown] = useState(false);
 
@@ -84,18 +64,34 @@ function ResizeBtn({ left, btnId }: IResizeBtn) {
     if (mouseDown) {
       if (btnId === 0) {
         const paperRatio = event.clientX / docWidth;
-        setWidthRatio({
-          ...widthRatio,
-          paper: paperRatio,
-          chapter: widthRatio.chapter + (widthRatio.paper - paperRatio),
-        });
+        const chapterRatio =
+          widthRatio.chapter + (widthRatio.paper - paperRatio);
+
+        if (
+          paperRatio * docWidth >= BERTPaperMinWidth.paper &&
+          chapterRatio * docWidth >= BERTPaperMinWidth.chapter
+        ) {
+          setWidthRatio({
+            ...widthRatio,
+            paper: paperRatio,
+            chapter: chapterRatio,
+          });
+        }
       } else if (btnId === 1) {
         const chapterRatio = event.clientX / docWidth - widthRatio.paper;
-        setWidthRatio({
-          ...widthRatio,
-          chapter: chapterRatio,
-          editor: widthRatio.editor + (widthRatio.chapter - chapterRatio),
-        });
+        const editorRatio =
+          widthRatio.editor + (widthRatio.chapter - chapterRatio);
+
+        if (
+          chapterRatio * docWidth >= BERTPaperMinWidth.chapter &&
+          editorRatio * docWidth >= BERTPaperMinWidth.editor
+        ) {
+          setWidthRatio({
+            ...widthRatio,
+            chapter: chapterRatio,
+            editor: editorRatio,
+          });
+        }
       }
     }
   };

@@ -1,5 +1,11 @@
 import { atom, selector } from 'recoil';
 
+export enum BERTPaperMinWidth {
+  'paper' = 300,
+  'chapter' = 300,
+  'editor' = 300,
+}
+
 export const isDarkState = atom({
   key: 'isDark',
   default: false,
@@ -68,24 +74,24 @@ export const BERTPaperWidthSelector = selector({
     const BERTPaperWidthRatio = get(BERTPaperWidthState);
     const docWidth = get(docWidthState);
 
-    // return {
-    //   paper:
-    //     BERTPaperWidthRatio.paper * docWidth > 300
-    //       ? BERTPaperWidthRatio.paper * docWidth
-    //       : 300,
-    //   chapter:
-    //     BERTPaperWidthRatio.chapter * docWidth > 300
-    //       ? BERTPaperWidthRatio.chapter * docWidth
-    //       : 300,
-    //   editor:
-    //     BERTPaperWidthRatio.editor * docWidth > 300
-    //       ? BERTPaperWidthRatio.editor
-    //       : 300,
-    // };
     return {
-      paper: BERTPaperWidthRatio.paper * docWidth,
-      chapter: BERTPaperWidthRatio.chapter * docWidth,
-      editor: BERTPaperWidthRatio.editor * docWidth,
+      paper:
+        BERTPaperWidthRatio.paper * docWidth > BERTPaperMinWidth.paper
+          ? BERTPaperWidthRatio.paper * docWidth
+          : BERTPaperMinWidth.paper,
+      chapter:
+        BERTPaperWidthRatio.chapter * docWidth > BERTPaperMinWidth.chapter
+          ? BERTPaperWidthRatio.chapter * docWidth
+          : BERTPaperMinWidth.chapter,
+      editor:
+        BERTPaperWidthRatio.editor * docWidth > BERTPaperMinWidth.editor
+          ? BERTPaperWidthRatio.editor * docWidth
+          : BERTPaperMinWidth.editor,
     };
+    // return {
+    //   paper: BERTPaperWidthRatio.paper * docWidth,
+    //   chapter: BERTPaperWidthRatio.chapter * docWidth,
+    //   editor: BERTPaperWidthRatio.editor * docWidth,
+    // };
   },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { BERTPaperState } from '../../atoms';
+import { BERTPaperState, BERTPaperMinWidth } from '../../atoms';
 import { ScrollHide } from '../Common';
 
 interface IContainer {
@@ -16,6 +16,7 @@ const Container = styled(ScrollHide).attrs((props: any) => ({
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   padding: 26px 22px 0 17px;
+  min-width: ${`${BERTPaperMinWidth.paper}px`};
 `;
 
 const Title = styled.h1`

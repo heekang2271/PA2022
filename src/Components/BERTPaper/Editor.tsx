@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { engineState } from '../../atoms';
+import { engineState, BERTPaperMinWidth } from '../../atoms';
 import { ScrollHide } from '../Common';
 import Confirm from './Confirm';
 import Generator from './Generator';
@@ -22,6 +22,7 @@ const Container = styled(ScrollHide).attrs((props: any) => ({
   background-color: ${(props) => props.theme.bgColor};
   border-left: 1px solid ${(props) => props.theme.borderColor};
   display: flex;
+  min-width: ${`${BERTPaperMinWidth.editor}px`};
 `;
 
 const EngineList = styled(ScrollHide)`

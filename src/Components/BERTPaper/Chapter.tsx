@@ -6,6 +6,7 @@ import {
   BERTPaperWidthState,
   chapterState,
   editState,
+  BERTPaperMinWidth,
 } from '../../atoms';
 import { ScrollHide } from '../Common';
 
@@ -22,6 +23,7 @@ const Container = styled(ScrollHide).attrs((props: any) => ({
   border-left: 1px solid ${(props) => props.theme.borderColor};
   padding: 21px 15px;
   padding-bottom: 0;
+  min-width: ${`${BERTPaperMinWidth.chapter}px`};
 `;
 
 const GroupTitle = styled.h4`

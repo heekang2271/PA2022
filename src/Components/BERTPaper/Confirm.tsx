@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { fetchConfirm } from '../../api';
 import { editState, BERTPaperState, chapterState } from '../../atoms';
 import { EditBtn } from '../Common';
 
@@ -51,7 +52,9 @@ function Confirm() {
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setEditValue(event.currentTarget.value);
   };
-  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const confirmResult = await fetchConfirm(editValue);
+    console.log(confirmResult);
     setBERTPaper((prev) => {
       const newBERTPaper = [...prev];
       const groupIndex = newBERTPaper.findIndex(
@@ -63,7 +66,7 @@ function Confirm() {
 
       const newGroup = { ...newBERTPaper[groupIndex] };
       const newChapter = { ...newGroup.chapters[chapterIndex] };
-      newChapter.contents = editValue;
+      newChapter.contents = confirmResult;
 
       const newChapters = [
         ...newGroup.chapters.slice(0, chapterIndex),

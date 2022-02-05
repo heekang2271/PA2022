@@ -47,4 +47,17 @@ export const EditResult = styled.div`
   .result {
     color: #000000;
   }
+
+  .suggestion {
+    color: ${(props) => props.theme.accentColor};
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-color: ${(props) => props.theme.accentColor};
+    text-decoration-thickness: 2px;
+  }
+`;
+
+export const EditContainer = styled.div`
+  padding-bottom: 23px;
+  width: 100%;
 `;

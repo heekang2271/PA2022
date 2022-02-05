@@ -132,3 +132,32 @@ export async function fetchGuide2(input: string) {
 
   return [];
 }
+
+export async function fetchConfirm(input: string) {
+  input = input.replace(/</gi, '&#60;');
+  input = input.replace(/>/gi, '&#62;');
+  if (
+    input ===
+    'Among them, layer-specific and queryspecific window outperform5 their fixed counterpart, showing the benefit that flexible mechanism is able to capture varying local context according to layer and query information. The flexible strategy does not reply on the handcrafted parameters (e.g. the pre-defined window size), which makes model robustly applicable to other language pairs and NLP tasks.'
+  ) {
+    return 'Among them, layer-specific and queryspecific window outperform5 their fixed counterpart, showing the benefit that flexible mechanism is able to capture varying local context according to layer and query <span class="suggestion">information. The</span> flexible strategy does not reply on the handcrafted parameters (e.g. the pre-defined window size), which makes model robustly applicable to other language pairs and NLP tasks.';
+  }
+
+  return input;
+}
+
+export async function fetchTword(input: string) {
+  if (
+    input ===
+    'Among them, layer-specific and queryspecific window outperform5 their fixed counterpart, showing the benefit that flexible mechanism is able to capture varying local context according to layer and query information. The flexible strategy does not reply on the handcrafted parameters (e.g. the pre-defined window size), which makes model robustly applicable to other language pairs and NLP tasks.'
+  ) {
+    const data = [
+      'Among them, layer-specific and queryspecific window outperform5 their fixed counterpart, showing the benefit that flexible mechanism is able to capture varying local context according to layer and query information. <span class="suggestion">Moreover, the</span> flexible strategy does not reply on the handcrafted parameters (e.g. the pre-defined window size), which makes model robustly applicable to other language pairs and NLP tasks.',
+      'Among them, layer-specific and queryspecific window outperform5 their fixed counterpart, showing the benefit that flexible mechanism is able to capture varying local context according to layer and query information. <span class="suggestion">In addition, the</span> flexible strategy does not reply on the handcrafted parameters (e.g. the pre-defined window size), which makes model robustly applicable to other language pairs and NLP tasks.',
+    ];
+
+    return data;
+  }
+
+  return [];
+}

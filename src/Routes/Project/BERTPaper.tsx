@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Chapter from '../../Components/BERTPaper/Chapter';
 import Editor from '../../Components/BERTPaper/Editor';
@@ -29,6 +29,9 @@ function BERTPaper() {
   const BERTPaperWidth = useRecoilValue(BERTPaperWidthSelector);
   const cntChapter = useRecoilValue(chapterState);
   const { userId } = useRecoilValue(userState);
+  const $engineBox = useRef();
+
+  const [tword, setTword] = useState('');
 
   useEffect(() => {
     const getData = async () => {
@@ -46,14 +49,22 @@ function BERTPaper() {
           <>
             <Paper size={BERTPaperWidth.paper} />
             <ResizeBtn left={BERTPaperWidth.paper} btnId={0} />
-            <Chapter size={BERTPaperWidth.chapter} />
+            <Chapter
+              size={BERTPaperWidth.chapter}
+              $engineBox={$engineBox}
+              setTword={setTword}
+            />
             {(cntChapter.group !== '' || cntChapter.chapter !== '') && (
               <>
                 <ResizeBtn
                   left={BERTPaperWidth.paper + BERTPaperWidth.chapter}
                   btnId={1}
                 />
-                <Editor size={BERTPaperWidth.editor} />
+                <Editor
+                  size={BERTPaperWidth.editor}
+                  $engineBox={$engineBox}
+                  tword={tword}
+                />
               </>
             )}
           </>

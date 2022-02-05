@@ -7,6 +7,7 @@ import Confirm from './Confirm';
 import Generator from './Generator';
 import Guide from './Guide';
 import Translator from './Translator';
+import Tword from './Tword';
 
 const ENGINE_LIST_WIDTH = 58;
 
@@ -68,11 +69,12 @@ const EngineBox = styled(ScrollHide)<any>`
 
 interface IEditor {
   size: number;
+  $engineBox: any;
+  tword: string;
 }
 
-function Editor({ size }: IEditor) {
+function Editor({ size, $engineBox, tword }: IEditor) {
   const $engines = useRef<any>([]);
-  const $engineBox = useRef<any>();
   const [cntEngine, setCntEngine] = useRecoilState(engineState);
 
   const setInitHeight = () => {
@@ -134,6 +136,16 @@ function Editor({ size }: IEditor) {
           type={2}
           propsRef={(el: any) => ($engines.current[3] = el)}
           setInitHeight={setInitHeight}
+        />
+      ),
+    },
+    {
+      title: 'Tword',
+      contents: (
+        <Tword
+          propsRef={(el: any) => ($engines.current[4] = el)}
+          setInitHeight={setInitHeight}
+          tword={tword}
         />
       ),
     },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { fetchTword } from '../../api';
 import {
   BERTPaperState,
   BERTPaperWidthState,
@@ -46,6 +47,13 @@ const ChapterContents = styled.div`
   min-height: 115px;
   color: ${(props) => props.theme.softTextColor};
   cursor: pointer;
+
+  .suggestion {
+    background-color: #a4bdff;
+    color: #000000;
+    padding: 0 2px;
+    border-bottom: 2px solid #396dff;
+  }
 `;
 
 interface IChapterBox {
@@ -90,15 +98,34 @@ const GroupBox = styled.div<IGroupBox>`
 
 interface IChapter {
   size: number;
+  $engineBox: any;
+  setTword: Function;
 }
 
-function Chapter({ size }: IChapter) {
+function Chapter({ size, $engineBox, setTword }: IChapter) {
   const BERTPaper = useRecoilValue(BERTPaperState);
   const [cntChapter, setCntChapter] = useRecoilState(chapterState);
   const [widthRatio, setWidthRatio] = useRecoilState(BERTPaperWidthState);
   const setEditValue = useSetRecoilState(editState);
 
-  const onClick = (group: string, chapter: string) => {
+  const onClick = async (event: any, group: string, chapter: string) => {
+    const { target, currentTarget } = event;
+
+    if (target.classList.contains('suggestion')) {
+      // const
+      const input = currentTarget.querySelector('p').innerText;
+
+      setTword(input);
+
+      $engineBox.current.scrollTo(0, 10000);
+
+      if (cntChapter.group !== '' || cntChapter.chapter !== '') {
+        return;
+      }
+    } else {
+      setTword('');
+    }
+
     if (cntChapter.group === group && cntChapter.chapter === chapter) {
       setWidthRatio({
         paper: widthRatio.paper + widthRatio.editor / 2,
@@ -150,13 +177,15 @@ function Chapter({ size }: IChapter) {
                       group.title === cntChapter.group &&
                       chap.title === cntChapter.chapter
                     }
-                    onClick={() => onClick(group.title, chap.title)}
+                    onClick={(event) => onClick(event, group.title, chap.title)}
                   >
                     {chap.title !== '' && (
                       <ChapterTitle>{chap.title}</ChapterTitle>
                     )}
                     <ChapterContents>
-                      <p>{chap.contents}</p>
+                      <p
+                        dangerouslySetInnerHTML={{ __html: chap.contents }}
+                      ></p>
                     </ChapterContents>
                   </ChapterBox>
                 );

@@ -65,7 +65,10 @@ function Paper({ size }: IPaper) {
               <h3>{group.title}</h3>
               <p>
                 {group.chapters.map((chapter, j) => (
-                  <span key={`chapter${i}${j}`}>{chapter.contents}</span>
+                  <span
+                    key={`chapter${i}${j}`}
+                    dangerouslySetInnerHTML={{ __html: chapter.contents }}
+                  ></span>
                 ))}
               </p>
             </Chapter>

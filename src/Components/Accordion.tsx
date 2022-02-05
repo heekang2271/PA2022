@@ -22,11 +22,11 @@ const Title = styled.div`
 `;
 
 const Contents = styled.div`
-  padding-bottom: 23px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 12px;
+  padding-bottom: 23px;
 `;
 
 interface IAccordion {

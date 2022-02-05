@@ -13,14 +13,6 @@ interface IContainer {
   size: number;
 }
 
-// const Container = styled(ScrollHide)<IContainer>`
-// background-color: ${(props) => props.theme.evenBgColor};
-// border-left: 1px solid ${(props) => props.theme.borderColor};
-// padding: 21px 15px;
-// padding-bottom: 0;
-//   width: ${(props) => `${props.size}px`};
-// `;
-
 const Container = styled(ScrollHide).attrs((props: any) => ({
   style: {
     width: `${props.size}px`,

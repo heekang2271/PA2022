@@ -68,6 +68,20 @@ export const BERTPaperWidthSelector = selector({
     const BERTPaperWidthRatio = get(BERTPaperWidthState);
     const docWidth = get(docWidthState);
 
+    // return {
+    //   paper:
+    //     BERTPaperWidthRatio.paper * docWidth > 300
+    //       ? BERTPaperWidthRatio.paper * docWidth
+    //       : 300,
+    //   chapter:
+    //     BERTPaperWidthRatio.chapter * docWidth > 300
+    //       ? BERTPaperWidthRatio.chapter * docWidth
+    //       : 300,
+    //   editor:
+    //     BERTPaperWidthRatio.editor * docWidth > 300
+    //       ? BERTPaperWidthRatio.editor
+    //       : 300,
+    // };
     return {
       paper: BERTPaperWidthRatio.paper * docWidth,
       chapter: BERTPaperWidthRatio.chapter * docWidth,

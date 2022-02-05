@@ -98,7 +98,11 @@ function Translator({ propsRef, setInitHeight }: any) {
       setInitHeight={setInitHeight}
     >
       <TranslateBox>
-        <TextArea value={value} onChange={onChange} />
+        <TextArea
+          value={value}
+          onChange={onChange}
+          placeholder="번역할 문장을 입력하세요."
+        />
         <TranslateBtn onClick={onClick}>Translate</TranslateBtn>
       </TranslateBox>
       {result.loading

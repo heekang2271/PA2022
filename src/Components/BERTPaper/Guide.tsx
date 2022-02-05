@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { fetchGuide1, fetchGuide2 } from '../../api';
 import { editState } from '../../atoms';
 import Accordion from '../Accordion';
-import { EditBtn, EditInput, EditResult } from '../Common';
+import { EditBtn, EditContainer, EditInput, EditResult } from '../Common';
 import NotResult from './NotResult';
 
 const SearchBox = styled.div`
@@ -125,43 +125,45 @@ function Guide({ title, type, propsRef, setInitHeight }: IGuide) {
 
   return (
     <Accordion propsRef={propsRef} title={title} setInitHeight={setInitHeight}>
-      <SearchBox>
-        <EditInput
-          value={value}
-          onChange={onChange}
-          placeholder="검색할 문장을 입력하세요."
-        />
-        <SearchBtn onClick={onClick}>Search</SearchBtn>
-      </SearchBox>
-      {result.loading
-        ? 'loading...'
-        : result?.data &&
-          (result.data.length === 0 ? (
-            value !== '' && <NotResult />
-          ) : (
-            <ResultContainer>
-              {result.data.map((r, i) => {
-                return (
-                  <ResultBox
-                    key={`generatorResult${i}`}
-                    current={cntResult === i}
-                  >
-                    <EditResult onClick={() => onResultClick(i)}>
-                      <ResultValue>{r.value}</ResultValue>
-                      <ResultDOI>
-                        <span>(</span>
-                        {r.doi}
-                        <span>)</span>
-                      </ResultDOI>
-                    </EditResult>
-                    <AddBtn onClick={() => onAddClick(r.value)}>
-                      Add Sentence
-                    </AddBtn>
-                  </ResultBox>
-                );
-              })}
-            </ResultContainer>
-          ))}
+      <EditContainer>
+        <SearchBox>
+          <EditInput
+            value={value}
+            onChange={onChange}
+            placeholder="검색할 문장을 입력하세요."
+          />
+          <SearchBtn onClick={onClick}>Search</SearchBtn>
+        </SearchBox>
+        {result.loading
+          ? 'loading...'
+          : result?.data &&
+            (result.data.length === 0 ? (
+              value !== '' && <NotResult />
+            ) : (
+              <ResultContainer>
+                {result.data.map((r, i) => {
+                  return (
+                    <ResultBox
+                      key={`generatorResult${i}`}
+                      current={cntResult === i}
+                    >
+                      <EditResult onClick={() => onResultClick(i)}>
+                        <ResultValue>{r.value}</ResultValue>
+                        <ResultDOI>
+                          <span>(</span>
+                          {r.doi}
+                          <span>)</span>
+                        </ResultDOI>
+                      </EditResult>
+                      <AddBtn onClick={() => onAddClick(r.value)}>
+                        Add Sentence
+                      </AddBtn>
+                    </ResultBox>
+                  );
+                })}
+              </ResultContainer>
+            ))}
+      </EditContainer>
     </Accordion>
   );
 }

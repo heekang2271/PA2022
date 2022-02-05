@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { fetchGenerator } from '../../api';
 import { editState } from '../../atoms';
 import Accordion from '../Accordion';
-import { EditBtn, EditInput, EditResult } from '../Common';
+import { EditBtn, EditContainer, EditInput, EditResult } from '../Common';
 import NotResult from './NotResult';
 
 const SearchBox = styled.div`
@@ -111,39 +111,41 @@ function Generator({ propsRef, setInitHeight }: any) {
       title="문장 생성"
       setInitHeight={setInitHeight}
     >
-      <SearchBox>
-        <EditInput
-          value={value}
-          onChange={onChange}
-          placeholder="검색할 문장을 입력하세요."
-        />
-        <SearchBtn onClick={onClick}>Search</SearchBtn>
-      </SearchBox>
-      {result.loading
-        ? 'loading...'
-        : result?.data &&
-          (result.data.length === 0 ? (
-            value !== '' && <NotResult />
-          ) : (
-            <ResultContainer>
-              {result.data.map((sentence, i) => {
-                return (
-                  <ResultBox
-                    key={`generatorResult${i}`}
-                    current={cntResult === i}
-                  >
-                    <EditResult
-                      onClick={() => onResultClick(i)}
-                      dangerouslySetInnerHTML={{ __html: sentence }}
-                    ></EditResult>
-                    <AddBtn onClick={() => onAddClick(sentence)}>
-                      Add Sentence
-                    </AddBtn>
-                  </ResultBox>
-                );
-              })}
-            </ResultContainer>
-          ))}
+      <EditContainer>
+        <SearchBox>
+          <EditInput
+            value={value}
+            onChange={onChange}
+            placeholder="검색할 문장을 입력하세요."
+          />
+          <SearchBtn onClick={onClick}>Search</SearchBtn>
+        </SearchBox>
+        {result.loading
+          ? 'loading...'
+          : result?.data &&
+            (result.data.length === 0 ? (
+              value !== '' && <NotResult />
+            ) : (
+              <ResultContainer>
+                {result.data.map((sentence, i) => {
+                  return (
+                    <ResultBox
+                      key={`generatorResult${i}`}
+                      current={cntResult === i}
+                    >
+                      <EditResult
+                        onClick={() => onResultClick(i)}
+                        dangerouslySetInnerHTML={{ __html: sentence }}
+                      ></EditResult>
+                      <AddBtn onClick={() => onAddClick(sentence)}>
+                        Add Sentence
+                      </AddBtn>
+                    </ResultBox>
+                  );
+                })}
+              </ResultContainer>
+            ))}
+      </EditContainer>
     </Accordion>
   );
 }

@@ -15,6 +15,7 @@ const AddBtn = styled(EditBtn)`
 
 const ResultContainer = styled.div`
   margin-top: 21px;
+  padding-bottom: 23px;
 `;
 
 interface IResultBox {

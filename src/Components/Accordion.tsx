@@ -26,7 +26,7 @@ const Contents = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 12px;
-  padding-bottom: 23px;
+  /* padding-bottom: 23px; */
 `;
 
 interface IAccordion {

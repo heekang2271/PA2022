@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { fetchTranslator } from '../../api';
 import { editState } from '../../atoms';
 import Accordion from '../Accordion';
-import { EditBtn } from '../Common';
+import { EditBtn, EditContainer } from '../Common';
 import NotResult from './NotResult';
 
 const TranslateBox = styled.div`
@@ -97,27 +97,29 @@ function Translator({ propsRef, setInitHeight }: any) {
       title="Translate"
       setInitHeight={setInitHeight}
     >
-      <TranslateBox>
-        <TextArea
-          value={value}
-          onChange={onChange}
-          placeholder="번역할 문장을 입력하세요."
-        />
-        <TranslateBtn onClick={onClick}>Translate</TranslateBtn>
-      </TranslateBox>
-      {result.loading
-        ? 'loading...'
-        : result?.data !== undefined &&
-          (result.data === '' ? (
-            <NotResult />
-          ) : (
-            <ResultBox>
-              <ResultArea as="div">{result.data}</ResultArea>
-              <AddBtn onClick={() => result.data && onAddClick(result.data)}>
-                Add Sentence
-              </AddBtn>
-            </ResultBox>
-          ))}
+      <EditContainer>
+        <TranslateBox>
+          <TextArea
+            value={value}
+            onChange={onChange}
+            placeholder="번역할 문장을 입력하세요."
+          />
+          <TranslateBtn onClick={onClick}>Translate</TranslateBtn>
+        </TranslateBox>
+        {result.loading
+          ? 'loading...'
+          : result?.data !== undefined &&
+            (result.data === '' ? (
+              <NotResult />
+            ) : (
+              <ResultBox>
+                <ResultArea as="div">{result.data}</ResultArea>
+                <AddBtn onClick={() => result.data && onAddClick(result.data)}>
+                  Add Sentence
+                </AddBtn>
+              </ResultBox>
+            ))}
+      </EditContainer>
     </Accordion>
   );
 }

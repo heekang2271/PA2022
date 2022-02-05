@@ -54,7 +54,7 @@ function Confirm() {
   };
   const onClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const confirmResult = await fetchConfirm(editValue);
-    console.log(confirmResult);
+
     setBERTPaper((prev) => {
       const newBERTPaper = [...prev];
       const groupIndex = newBERTPaper.findIndex(

@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { lightTheme, darkTheme } from './theme';
+import GlobalStyles from './Components/GlobalStyles';
+import Router from './Router';
+import { docWidthState, isDarkState, userState } from './atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 function App() {
+  const isDark = useRecoilValue(isDarkState);
+  const setDocWidth = useSetRecoilState(docWidthState);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDocWidth(document.body.clientWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyles />
+        <Router />
+      </ThemeProvider>
+    </>
   );
 }
 

@@ -5,6 +5,7 @@ import { fetchGuide1, fetchGuide2 } from '../../api';
 import { editState } from '../../atoms';
 import Accordion from '../Accordion';
 import { EditBtn, EditInput, EditResult } from '../Common';
+import NotResult from './NotResult';
 
 const SearchBox = styled.div`
   width: 100%;
@@ -51,6 +52,19 @@ const ResultBox = styled.div<IResultBox>`
   }
 `;
 
+const ResultValue = styled.span`
+  display: block;
+`;
+
+const ResultDOI = styled.span`
+  display: block;
+  color: ${(props) => props.theme.accentColor};
+
+  span {
+    color: #858585;
+  }
+`;
+
 interface IGuide {
   title: string;
   type: number;
@@ -60,7 +74,10 @@ interface IGuide {
 
 interface IResult {
   loading: boolean;
-  data?: string[];
+  data?: {
+    value: string;
+    doi: string;
+  }[];
 }
 
 type cntResult = number;
@@ -74,6 +91,12 @@ function Guide({ title, type, propsRef, setInitHeight }: IGuide) {
   const setEditValue = useSetRecoilState(editState);
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    if (result?.data?.length === 0) {
+      setResult({
+        loading: false,
+      });
+    }
+
     setValue(event.currentTarget.value);
   };
 
@@ -112,25 +135,33 @@ function Guide({ title, type, propsRef, setInitHeight }: IGuide) {
       </SearchBox>
       {result.loading
         ? 'loading...'
-        : result?.data && (
+        : result?.data &&
+          (result.data.length === 0 ? (
+            value !== '' && <NotResult />
+          ) : (
             <ResultContainer>
-              {result.data.map((sentence, i) => {
+              {result.data.map((r, i) => {
                 return (
                   <ResultBox
                     key={`generatorResult${i}`}
                     current={cntResult === i}
                   >
                     <EditResult onClick={() => onResultClick(i)}>
-                      {sentence}
+                      <ResultValue>{r.value}</ResultValue>
+                      <ResultDOI>
+                        <span>(</span>
+                        {r.doi}
+                        <span>)</span>
+                      </ResultDOI>
                     </EditResult>
-                    <AddBtn onClick={() => onAddClick(sentence)}>
+                    <AddBtn onClick={() => onAddClick(r.value)}>
                       Add Sentence
                     </AddBtn>
                   </ResultBox>
                 );
               })}
             </ResultContainer>
-          )}
+          ))}
     </Accordion>
   );
 }

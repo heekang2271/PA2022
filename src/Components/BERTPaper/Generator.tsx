@@ -5,6 +5,7 @@ import { fetchGenerator } from '../../api';
 import { editState } from '../../atoms';
 import Accordion from '../Accordion';
 import { EditBtn, EditInput, EditResult } from '../Common';
+import NotResult from './NotResult';
 
 const SearchBox = styled.div`
   width: 100%;
@@ -67,6 +68,11 @@ function Generator({ propsRef, setInitHeight }: any) {
   const setEditValue = useSetRecoilState(editState);
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    if (result?.data?.length === 0) {
+      setResult({
+        loading: false,
+      });
+    }
     setValue(event.currentTarget.value);
   };
 
@@ -76,10 +82,13 @@ function Generator({ propsRef, setInitHeight }: any) {
     });
 
     const result = await fetchGenerator(value);
+    const newResult = result.map((r) =>
+      r.replace(value, `<span class="result">${value}</span>`)
+    );
 
     setResult({
       loading: false,
-      data: result,
+      data: newResult,
     });
     setCntResult(undefined);
   };
@@ -89,7 +98,11 @@ function Generator({ propsRef, setInitHeight }: any) {
   };
 
   const onAddClick = (sentence: string) => {
-    setEditValue((prev) => (prev === '' ? sentence : `${prev}\n${sentence}`));
+    const $tempDiv = document.createElement('div');
+    $tempDiv.innerHTML = sentence;
+    setEditValue((prev) =>
+      prev === '' ? $tempDiv.innerText : `${prev}\n${$tempDiv.innerText}`
+    );
   };
 
   return (
@@ -108,7 +121,10 @@ function Generator({ propsRef, setInitHeight }: any) {
       </SearchBox>
       {result.loading
         ? 'loading...'
-        : result?.data && (
+        : result?.data &&
+          (result.data.length === 0 ? (
+            value !== '' && <NotResult />
+          ) : (
             <ResultContainer>
               {result.data.map((sentence, i) => {
                 return (
@@ -116,9 +132,10 @@ function Generator({ propsRef, setInitHeight }: any) {
                     key={`generatorResult${i}`}
                     current={cntResult === i}
                   >
-                    <EditResult onClick={() => onResultClick(i)}>
-                      {sentence}
-                    </EditResult>
+                    <EditResult
+                      onClick={() => onResultClick(i)}
+                      dangerouslySetInnerHTML={{ __html: sentence }}
+                    ></EditResult>
                     <AddBtn onClick={() => onAddClick(sentence)}>
                       Add Sentence
                     </AddBtn>
@@ -126,7 +143,7 @@ function Generator({ propsRef, setInitHeight }: any) {
                 );
               })}
             </ResultContainer>
-          )}
+          ))}
     </Accordion>
   );
 }

@@ -5,6 +5,7 @@ import { fetchTranslator } from '../../api';
 import { editState } from '../../atoms';
 import Accordion from '../Accordion';
 import { EditBtn } from '../Common';
+import NotResult from './NotResult';
 
 const TranslateBox = styled.div`
   width: 100%;
@@ -23,6 +24,7 @@ const TextArea = styled.textarea`
   height: 119px;
   border-radius: 9px;
   padding: 19px 12px;
+  font-size: 16px;
   border: 1px solid ${(props) => props.theme.borderColor};
 
   &:focus {
@@ -63,6 +65,12 @@ function Translator({ propsRef, setInitHeight }: any) {
   const setEditValue = useSetRecoilState(editState);
 
   const onChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    if (result?.data?.length === 0) {
+      setResult({
+        loading: false,
+      });
+    }
+
     setValue(event.currentTarget.value);
   };
 
@@ -95,14 +103,17 @@ function Translator({ propsRef, setInitHeight }: any) {
       </TranslateBox>
       {result.loading
         ? 'loading...'
-        : result?.data && (
+        : result?.data !== undefined &&
+          (result.data === '' ? (
+            <NotResult />
+          ) : (
             <ResultBox>
               <ResultArea as="div">{result.data}</ResultArea>
               <AddBtn onClick={() => result.data && onAddClick(result.data)}>
                 Add Sentence
               </AddBtn>
             </ResultBox>
-          )}
+          ))}
     </Accordion>
   );
 }

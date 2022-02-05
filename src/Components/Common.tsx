@@ -35,10 +35,16 @@ export const EditInput = styled.input`
 `;
 
 export const EditResult = styled.div`
-  height: 79px;
+  width: 100%;
+  min-height: 86px;
+  max-height: 150px;
   padding: 11px 12px;
   border-radius: 9px;
   border: 1px solid ${(props) => props.theme.borderColor};
   overflow-y: auto;
   color: #858585;
+
+  .result {
+    color: #000000;
+  }
 `;

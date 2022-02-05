@@ -60,10 +60,10 @@ const EditContainer = styled.div`
 
 const EngineBox = styled(ScrollHide)<any>`
   height: 100%;
-  /* scroll-snap-type: y mandatory; */
+  scroll-snap-type: y mandatory;
 
   & > div {
-    /* scroll-snap-align: start; */
+    scroll-snap-align: start;
   }
 `;
 

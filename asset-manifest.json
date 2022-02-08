@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/PA2022/static/js/main.2d2d509e.js",
+    "main.js": "/PA2022/static/js/main.d055b513.js",
     "index.html": "/PA2022/index.html",
-    "main.2d2d509e.js.map": "/PA2022/static/js/main.2d2d509e.js.map"
+    "main.d055b513.js.map": "/PA2022/static/js/main.d055b513.js.map"
   },
   "entrypoints": [
-    "static/js/main.2d2d509e.js"
+    "static/js/main.d055b513.js"
   ]
 }
